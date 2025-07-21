@@ -1,0 +1,47 @@
+import java.util.*; // Import utility classes like Random and Arrays
+
+public class QuickSortShort {
+    static final Random rand = new Random(); // For selecting random pivot
+
+    // Main quicksort function
+    public static void quickSort(int[] a, int l, int r) {
+        if (l >= r) return; // Base case: if subarray has 0 or 1 element, return
+
+        // Choose a random pivot index between l and r
+        int p = l + rand.nextInt(r - l + 1);
+        int pivot = a[p]; // Store pivot value
+        swap(a, p, r);    // Move pivot to the end for convenience
+
+        int i = l; // i marks the boundary for elements <= pivot
+
+        // Partitioning loop: place elements <= pivot to the left
+        for (int j = l; j < r; j++) {
+            if (a[j] <= pivot) {
+                swap(a, i++, j); // Swap a[j] with a[i], then move i forward
+            }
+        }
+
+        // Place pivot in its correct sorted position
+        swap(a, i, r);
+
+        // Recursively sort left and right subarrays
+        quickSort(a, l, i - 1);   // Left part: less than pivot
+        quickSort(a, i + 1, r);   // Right part: greater than pivot
+    }
+
+    // Swap function to exchange elements at two indices
+    static void swap(int[] a, int i, int j) {
+        if (i != j) {             // Avoid unnecessary swap if i == j
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr = {9, 3, 7, 1, 6, 2, 8, 5, 4}; // Unsorted array
+        quickSort(arr, 0, arr.length - 1);      // Call quickSort on full array
+        System.out.println(Arrays.toString(arr)); // Print the sorted array
+    }
+}
